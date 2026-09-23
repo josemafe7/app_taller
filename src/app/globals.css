@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+/* Colores del diseño de Claude Design (Talleres Ruiz) */
+@theme {
+  --color-fondo: #F5F4F2;
+  --color-tinta: #1C1917;
+  --color-rojo: #B91C1C;
+  --color-rojo-hover: #991B1B;
+  --color-rojo-oscuro: #7F1D1D;
+  --color-rojo-50: #FEF2F2;
+  --color-rojo-100: #FEE2E2;
+  --color-rojo-200: #FECACA;
+  --color-rojo-300: #FCA5A5;
+  --color-borde: #E4E1DC;
+  --color-borde-2: #D6D3CE;
+  --color-borde-3: #C9C5BF;
+  --color-linea: #F0EEEA;
+  --color-suave: #F1EFEC;
+  --color-burbuja: #EDEBE8;
+  --color-papel: #FAFAF9;
+  --color-gris: #E7E5E4;
+  --color-t2: #57534E;
+  --color-t3: #44403C;
+  --color-t4: #78716C;
+  --color-t5: #A8A29E;
+  --color-t6: #D6D3D1;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: #F5F4F2;
+    color: #1C1917;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: background-color 0.15s, border-color 0.15s, opacity 0.15s;
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+  .btn-rojo {
+    background: #B91C1C;
+    color: #fff;
+  }
+  .btn-rojo:hover:not(:disabled) {
+    background: #991B1B;
+  }
+  .btn-negro {
+    background: #1C1917;
+    color: #fff;
+  }
+  .btn-negro:hover:not(:disabled) {
+    background: #292524;
+  }
+  .btn-borde {
+    background: #fff;
+    border-color: #D6D3CE;
+    color: #1C1917;
+  }
+  .btn-borde:hover:not(:disabled) {
+    background: #F5F4F2;
+  }
+  .btn-texto {
+    background: none;
+    border: none;
+    color: #57534E;
+    font-weight: 600;
+  }
+  .btn-texto:hover:not(:disabled) {
+    color: #1C1917;
+  }
+  .campo {
+    height: 40px;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #D6D3CE;
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #1C1917;
+    background: #fff;
+  }
+  textarea.campo {
+    height: auto;
+    padding: 8px 10px;
+    line-height: 1.4;
+    resize: vertical;
+  }
+  .campo:focus {
+    outline: 2px solid rgba(185, 28, 28, 0.2);
+    outline-offset: 0;
+    border-color: #B91C1C;
+  }
+  .campo[readonly] {
+    background: #FAFAF9;
+    color: #44403C;
+  }
+  .etiqueta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #57534E;
+  }
+  .titulo-seccion {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #57534E;
+  }
+  .tarjeta {
+    background: #fff;
+    border: 1px solid #E4E1DC;
+    border-radius: 10px;
+  }
+}
+
+/* Con la barra del micrófono del mecánico, los avisos salen por encima. */
+body:has(.barra-movil) .aviso-flotante {
+  bottom: 112px;
+}
+
+@keyframes trwave {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+@keyframes trpulse {
+  0% { box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.55); }
+  100% { box-shadow: 0 0 0 18px rgba(185, 28, 28, 0); }
+}
+@keyframes trspin {
+  to { transform: rotate(360deg); }
+}
+@keyframes trblink {
+  50% { opacity: 0; }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .no-imprimir {
+    display: none !important;
+  }
+  .fondo-informe {
+    background: #fff !important;
+    padding: 0 !important;
+  }
+  .hoja-informe {
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
