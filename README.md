@@ -34,7 +34,13 @@ Abre http://localhost:5678 y entra con tu usuario: `paco`, `lucia`, `javi`, `rub
 | lucia (recepción) | Tablero, conversaciones, clientes y citas |
 | javi, ruben, marta (mecánicos) | Solo sus coches mientras están en el taller, en la vista de móvil |
 
-**Contraseñas:** pulsando tu nombre (arriba a la derecha) puedes cambiar la tuya. Paco, además, puede poner una contraseña nueva a cualquiera del equipo (por ejemplo, si la olvida); a esa persona se le cierran las sesiones abiertas.
+**Contraseñas:** nadie puede cambiarlas desde la app (ni siquiera Paco). Solo se cambian desde la base de datos, en Supabase → SQL Editor:
+
+```sql
+select privado.poner_clave('lucia', 'una-contraseña-nueva-larga');
+```
+
+El primer dato es el usuario (`paco`, `lucia`, `javi`, `ruben` o `marta`); la contraseña, de 10 a 72 caracteres. A esa persona se le cierran las sesiones abiertas. Si cambias la de `asistente`, pon la nueva también en `SUPABASE_ASISTENTE_CLAVE` (en `.env.local` y en Vercel) o el chat público dejará de funcionar.
 
 **Chat para clientes:** `/chat` (por ejemplo, http://localhost:5678/chat). Es público: es el enlace que se pone en la web del taller. Cada chat nuevo entra en Conversaciones con el canal «Web».
 
@@ -51,7 +57,8 @@ Abre http://localhost:5678 y entra con tu usuario: `paco`, `lucia`, `javi`, `rub
 - La app solo habla con Supabase desde el servidor. La sesión va en cookies `HttpOnly` y se renueva sola.
 - Cada consulta se hace con la sesión de quien la pide. La base de datos aplica sus propias reglas (RLS), aunque alguien se saltara la app:
   - Un mecánico solo ve y cambia sus coches mientras están en el taller. No puede cerrar órdenes ni pasárselas a otro.
-  - Recepción no puede tocar la tarifa ni las contraseñas de otros.
+  - Recepción no puede tocar la tarifa.
+  - Nadie cambia contraseñas desde la app ni desde la API de Supabase Auth (tampoco recuperarlas por email): la base de datos lo bloquea. Solo desde el SQL Editor.
   - El historial de una orden solo crece: no se puede borrar ni cambiar.
   - No puede haber dos citas en el mismo hueco ni dos órdenes abiertas para el mismo coche.
 - El chat público usa una cuenta propia (el «asistente»). No puede leer clientes, coches, órdenes ni citas. Solo recibe los datos de una orden si el cliente escribe su código y su matrícula y coinciden. Si alguien prueba muchos códigos, la conversación pasa a una persona.

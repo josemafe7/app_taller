@@ -67,7 +67,6 @@ export type Database = {
     Functions: {
       asistente_orden: { Args: { p_codigo: string; p_matriculas: string[] }; Returns: Json };
       huecos_ocupados: { Args: { p_desde: string; p_hasta: string }; Returns: { fecha: string; hora: string }[] };
-      poner_clave: { Args: { p_clave: string; p_persona: string }; Returns: undefined };
       reiniciar_datos: { Args: { p_datos: Json }; Returns: undefined };
     };
     Enums: { [_ in never]: never };
